@@ -18,13 +18,15 @@ flights = pd.read_csv(args.tsvfile, delim_whitespace=True)
 # flights = pd.read_csv(input("Geben Sie den Namen der Datei an"))
 flights.head()
 
-print(flights.columns)
+# print(flights.columns)
 
 if (args.statistic == "max") and (args.variable == "distance"):
   print("{}".format(flights["DISTANCE"].max()))
 elif (args.statistic == "max") and (args.variable == "delay"):
-  print("{}".format(flights["DEPARTURE_DELAY"].max()))
+  flights["ARRIVAL_DELAY"] = (flights["DEPARTURE_DELAY"] + (flights["ACTUAL_DURATION"] - flights["PLANNED_DURATION"]))
+  print("{}".format(flights["ARRIVAL_DELAY"].max()))
 elif (args.statistic == "avg") and (args.variable == "distance"):
   print("{:.1f}".format((flights["DISTANCE"].sum() / len(flights.index))))
 elif (args.statistic == "avg") and (args.variable == "delay"):
-  print("{:.1f}".format((flights["DEPARTURE_DELAY"].sum() / len(flights.index))))
+  flights["ARRIVAL_DELAY"] = (flights["DEPARTURE_DELAY"] + (flights["ACTUAL_DURATION"] - flights["PLANNED_DURATION"]))
+  print("{:.1f}".format((flights["ARRIVAL_DELAY"].sum() / len(flights.index))))
