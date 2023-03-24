@@ -8,14 +8,23 @@
 # 'H100i ELITE CAPELLIX Pump',
 # 'H100i ELITE CAPELLIX Coolant Temp'
 
-import pandas as pd, glob
+import pandas as pd, glob, argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("filedir", help="Name of Directory of Logfiles")
+args = parser.parse_args()
+
+logs = pd.concat(map(pd.read_csv, glob.glob(args.filedir + '*.csv')))
 
 columns = []
-logs = pd.concat(map(pd.read_csv, glob.glob('/home/weiberle/Logs/*.csv')))
 
 for column in logs:
   columns.append(column)
 
+logs['H100i ELITE CAPELLIX Coolant Temp Int'] = logs[columns[7]].str[0:5]
+logs['H100i ELITE CAPELLIX Coolant Temp Int'] = logs['H100i ELITE CAPELLIX Coolant Temp Int'].astype('float')
+
 logsMax = logs.loc[logs[columns[7]] == logs[columns[7]].max()]
 
 print(logsMax)
+print(logs['H100i ELITE CAPELLIX Coolant Temp Int'].mean())
