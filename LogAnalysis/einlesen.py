@@ -27,4 +27,5 @@ logs['H100i ELITE CAPELLIX Coolant Temp Int'] = logs['H100i ELITE CAPELLIX Coola
 logsMax = logs.loc[logs[columns[7]] == logs[columns[7]].max()]
 
 print(logsMax)
-print(logs['H100i ELITE CAPELLIX Coolant Temp Int'].mean())
+print("Die maximale Temperatur betrug {}".format(logs[columns[7]].max()))
+print("Die Durchschnittstemperatur beträgt: {:.2f}°C".format(logs['H100i ELITE CAPELLIX Coolant Temp Int'].mean()))
