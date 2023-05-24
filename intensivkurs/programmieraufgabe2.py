@@ -13,14 +13,19 @@ args = parser.parse_args()
 # Ab hier die Lösung programmieren | Solution programming starts here ....
 
 import pandas as pd
+import time
 
-flights = pd.read_csv(args.tsvfile, delim_whitespace=True)
-# flights = pd.read_csv(input("Geben Sie den Namen der Datei an"))
-flights.head()
+try:
+  flights = pd.read_csv(args.tsvfile, delim_whitespace=True)
+except:
+  print ("ERROR_INVALID_FILE")
+  exit()
+
 flights["ARRIVAL_DELAY"] = (flights["DEPARTURE_DELAY"] + (flights["ACTUAL_DURATION"] - flights["PLANNED_DURATION"]))
 flights.loc[flights["ARRIVAL_DELAY"] < 0, ["ARRIVAL_DELAY"]] = 0
 
-# print(flights.columns)
+date_formats = ["%Y-%m-%d", "%d.%m.%Y"]
+date = []
 
 if (args.statistic == "max") and (args.variable == "distance"):
   print("{}".format(flights["DISTANCE"].max()))
